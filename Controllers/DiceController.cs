@@ -24,32 +24,50 @@ namespace DiceRoller.Controllers
         {
             diceHelper dh = new();
             var rng = new Random();
+            string resultString = dh.rollDice(diceNumber, diceType + 1);
             return Enumerable.Range(1, 1).Select(index => new Dice
             {
                 DiceNumber = diceNumber,
                 DiceType = diceType,
-                Result = dh.rollDice(diceNumber, diceType+1)
+                ResultString = resultString,
+                DiceSum = dh.countSum(resultString)
             })
             .ToArray();
         }
-
-
-
     }
 
     class diceHelper
     {
 
-        public int rollDice(int diceNumber, int diceType)
+        public string rollDice(int diceNumber, int diceType)
         {
-            int toReturn = 0;
+            string toReturn = "";
             for (int i = 0; i < diceNumber; i++)
             {
                 var rng = new Random();
-                toReturn += rng.Next(1, diceType);
+                if(toReturn == "")
+                {
+                    toReturn += rng.Next(1, diceType);
+                }
+                else
+                {
+                    toReturn += " + " + rng.Next(1, diceType);
+                }
+                
             }
             return toReturn;
         }
 
+        public int countSum(string ResultString)
+        {
+            String[] numbers = ResultString.Split(" + ", StringSplitOptions.RemoveEmptyEntries);
+            int toReturn = 0;
+            foreach(var number in numbers)
+            {
+                toReturn += int.Parse(number);
+            }
+            return toReturn;
+
+        }
     }
 }

@@ -9,6 +9,8 @@ namespace DiceRoller
 
         public int DiceNumber { get; set; }
 
-        public int Result { get; set; }
+        public int DiceSum { get; set; }
+
+        public string ResultString { get; set; }
     }
 }
